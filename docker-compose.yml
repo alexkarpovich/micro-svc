@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: .docker/django/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    working_dir: /usr/src
+    volumes:
+      - ./ui-mcs:/usr/src
+      - ./protos:/protos
+    ports:
+      - 8000:8000
+    links:
+      - postgres
+      - golang
+    depends_on:
+      - postgres
+
+  golang:
+    build:
+      context: .
+      dockerfile: .docker/golang/Dockerfile
+    volumes:
+      - ./go-mcs:/go/src/github.com/alexkarpovich/micro-svc
+      - ./protos:/protos
+    ports:
+      - 9090:80
+      - 50052:50052
+    expose:
+      - 50052
+
+  postgres:
+    image: postgres:11.1
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432"  
+
+volumes:
+  postgres_data:
