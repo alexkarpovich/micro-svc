@@ -11,6 +11,7 @@ grpcio = "*"
 asyncio = "*"
 requests = "*"
 pytelegrambotapi = "*"
+thread = "*"
 
 [requires]
 python_version = "3.7"

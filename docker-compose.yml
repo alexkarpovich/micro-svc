@@ -22,11 +22,15 @@ services:
     build:
       context: .
       dockerfile: .docker/telegram/Dockerfile
-    command: python server.py
+    command: python main.py
     working_dir: /usr/src
     volumes:
       - ./telegram-mcs:/usr/src
       - ./protos:/protos
+    ports:
+      - 50051:50051
+    expose:
+      - 50051
 
   golang:
     build:
@@ -36,7 +40,6 @@ services:
       - ./go-mcs:/go/src/github.com/alexkarpovich/micro-svc
       - ./protos:/protos
     ports:
-      - 9090:80
       - 50052:50052
     expose:
       - 50052
