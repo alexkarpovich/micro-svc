@@ -15,6 +15,7 @@ services:
     links:
       - postgres
       - golang
+      - telegram
     depends_on:
       - postgres
 

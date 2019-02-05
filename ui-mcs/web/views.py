@@ -10,3 +10,11 @@ def homePageView(request):
 	response = stub.snip_it(request)
 
 	return HttpResponse(response.url)
+
+def telegramView(request):
+	channel = grpc.insecure_channel('telegram:50051')
+	stub = UrlSnipServiceStub(channel)
+	request = SnipRequest(url="Telegram")
+	response = stub.snip_it(request)
+
+	return HttpResponse(response.url)

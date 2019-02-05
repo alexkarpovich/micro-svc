@@ -4,7 +4,16 @@ import threading
 from concurrent import futures
 
 from bot import bot
-from proto.snip_pb2_grpc import add_UrlSnipServiceServicer_to_server, UrlSnipServiceServicer
+from proto.snip_pb2 import SnipResponse
+from proto.snip_pb2_grpc import add_UrlSnipServiceServicer_to_server, UrlSnipServiceServicer as BaseUrlSnipServiceServicer
+
+
+class UrlSnipServiceServicer(BaseUrlSnipServiceServicer):
+
+    def snip_it(self, request, context):
+        response = SnipResponse
+        response.url = 'pretty much it' + request.url
+        return response
 
 
 def run_telegram_bot():
