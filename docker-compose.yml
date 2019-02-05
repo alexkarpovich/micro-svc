@@ -18,6 +18,16 @@ services:
     depends_on:
       - postgres
 
+  telegram:
+    build:
+      context: .
+      dockerfile: .docker/telegram/Dockerfile
+    command: python server.py
+    working_dir: /usr/src
+    volumes:
+      - ./telegram-mcs:/usr/src
+      - ./protos:/protos
+
   golang:
     build:
       context: .
@@ -40,7 +50,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     ports:
-      - "5432"  
+      - "5432"
 
 volumes:
   postgres_data:
