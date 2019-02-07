@@ -29,9 +29,9 @@ services:
       - ./telegram-mcs:/usr/src
       - ./protos:/protos
     ports:
-      - 50051:50051
+      - 50053:50053
     expose:
-      - 50051
+      - 50053
 
   golang:
     build:
