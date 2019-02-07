@@ -1,31 +1,44 @@
+import sys
 import grpc
+import time
 import logging
 import threading
 from concurrent import futures
 
 from bot import bot
-from proto.snip_pb2 import SnipResponse
-from proto.snip_pb2_grpc import add_UrlSnipServiceServicer_to_server, UrlSnipServiceServicer as BaseUrlSnipServiceServicer
+from proto.snip_pb2 import SnipResponse, SnipRequest
+from proto.snip_pb2_grpc import add_UrlSnipServiceServicer_to_server, UrlSnipServiceServicer, UrlSnipServiceStub
 
 
-class UrlSnipServiceServicer(BaseUrlSnipServiceServicer):
+_ONE_DAY_IN_SECONDS = 60 * 60 * 24
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    stream=sys.stdout,
+    format="%(asctime)s - %(threadName)s - %(message)s")
+
+class UrlSnipService(UrlSnipServiceServicer):
 
     def snip_it(self, request, context):
-        response = SnipResponse
-        response.url = 'pretty much it' + request.url
-        return response
+        return SnipResponse(url='pretty much it ' + request.url)
 
 
 def run_telegram_bot():
+    logging.debug('Start telegram bot')
     bot.polling(none_stop=True)
 
 def run_grpc_server():
-    logging.info('Start grpc server')
+    logging.debug('Start grpc server')
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    add_UrlSnipServiceServicer_to_server(
-      UrlSnipServiceServicer(), server)
-    server.add_insecure_port('[::]:50052')
+    add_UrlSnipServiceServicer_to_server(UrlSnipService(), server)
+    server.add_insecure_port('0.0.0.0:50053')
     server.start()
+
+    try:
+        while True:
+            time.sleep(_ONE_DAY_IN_SECONDS)
+    except KeyboardInterrupt:
+        server.stop(0)
 
 if __name__=='__main__':
     telegram_thread = threading.Thread(target=run_telegram_bot)

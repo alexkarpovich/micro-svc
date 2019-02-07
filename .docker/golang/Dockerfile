@@ -18,6 +18,4 @@ RUN go get -u \
 RUN go install github.com/canthefason/go-watcher/cmd/watcher
 RUN go install github.com/golang/protobuf/protoc-gen-go
 
-EXPOSE 80
-
 CMD watcher -run github.com/alexkarpovich/micro-svc/cmd/srv -watch github.com/alexkarpovich/micro-svc
