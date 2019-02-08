@@ -2,7 +2,7 @@ import sys
 import grpc
 import time
 import logging
-import threading
+from threading import Thread
 from concurrent import futures
 
 from bot import bot
@@ -41,7 +41,7 @@ def run_grpc_server():
         server.stop(0)
 
 if __name__=='__main__':
-    telegram_thread = threading.Thread(target=run_telegram_bot)
-    grpc_thread = threading.Thread(target=run_grpc_server)
+    telegram_thread = Thread(target=run_telegram_bot)
+    grpc_thread = Thread(target=run_grpc_server)
     telegram_thread.start()
     grpc_thread.start()
