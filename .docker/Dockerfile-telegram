@@ -6,9 +6,9 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /usr/src
 
 RUN pip install pipenv
-COPY ./telegram-mcs/Pipfile ./telegram-mcs/Pipfile.lock /usr/src/
+COPY ./telegram/Pipfile ./telegram/Pipfile.lock /usr/src/
 RUN pipenv install --system
 
-COPY ./telegram-mcs /usr/src/
+COPY ./telegram /usr/src/
 
 # RUN python -m grpc_tools.protoc -I/protos --python_out=./proto --grpc_python_out=./proto /protos/snip.proto

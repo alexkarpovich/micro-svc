@@ -1,6 +1,6 @@
 FROM golang:1.11
 
-COPY ./go-mcs /go/src/github.com/alexkarpovich/micro-svc
+COPY ./user /go/src/github.com/alexkarpovich/micro-svc
 WORKDIR /go/src/github.com/alexkarpovich/micro-svc
 
 RUN apt-get update && apt-get install -y unzip
