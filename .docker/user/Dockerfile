@@ -1,7 +1,7 @@
 FROM golang:1.11
 
-COPY ./user /go/src/github.com/alexkarpovich/micro-svc
-WORKDIR /go/src/github.com/alexkarpovich/micro-svc
+COPY ./user /go/src/github.com/alexkarpovich/quiqstee-user
+WORKDIR /go/src/github.com/alexkarpovich/quiqstee-user
 
 RUN apt-get update && apt-get install -y unzip
 
@@ -18,4 +18,6 @@ RUN go get -u \
 RUN go install github.com/canthefason/go-watcher/cmd/watcher
 RUN go install github.com/golang/protobuf/protoc-gen-go
 
-CMD watcher -run github.com/alexkarpovich/micro-svc/cmd/srv -watch github.com/alexkarpovich/micro-svc
+RUN go get ./...
+
+CMD watcher -run github.com/alexkarpovich/quiqstee-user/cmd -watch github.com/alexkarpovich/quiqstee-user

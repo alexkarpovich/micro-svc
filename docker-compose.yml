@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile-telegram
-    command: python main.py
+    # command: python main.py
     working_dir: /usr/src
     volumes:
       - ./telegram:/usr/src
@@ -20,25 +20,27 @@ services:
   user:
     build:
       context: .
-      dockerfile: .docker/Dockerfile-user
+      dockerfile: .docker/user/Dockerfile
     volumes:
-      - ./user:/go/src/github.com/alexkarpovich/micro-svc
+      - ./user:/go/src/github.com/alexkarpovich/quiqstee-user
       - ./protos:/protos
+    env_file:
+      - .docker/user/.env
+      - .docker/user_db/.env
     ports:
+      - 8888:80
       - 50052:50052
     expose:
       - 50052
     networks:
       - main_network
 
-  postgres:
+  user_db:
     image: postgres:11.1
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: dev
+    env_file:
+      - .docker/user_db/.env
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - user_data:/var/lib/postgresql/data/
     ports:
       - "5432"
     networks:
@@ -57,7 +59,7 @@ services:
       - main_network
 
 volumes:
-  postgres_data:
+  user_data:
 
 networks:
   main_network:
