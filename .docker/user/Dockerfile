@@ -13,10 +13,12 @@ RUN go get -u \
   github.com/canthefason/go-watcher \
   github.com/golang/protobuf/protoc-gen-go \
   github.com/golang/protobuf/proto \
-  google.golang.org/grpc
+  google.golang.org/grpc \
+  github.com/pressly/goose/cmd/goose
 
 RUN go install github.com/canthefason/go-watcher/cmd/watcher
 RUN go install github.com/golang/protobuf/protoc-gen-go
+RUN go build -tags='no_mysql no_sqlite no_psql' -i -o goose github.com/pressly/goose/cmd/goose
 
 RUN go get ./...
 
