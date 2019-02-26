@@ -1,9 +1,9 @@
 [submodule "user"]
 	path = user
-	url = https://github.com/alexkarpovich/quiqstee-user.git
+	url = git@github.com:alexkarpovich/quiqstee-user.git
 [submodule "telegram"]
 	path = telegram
-	url = https://github.com/alexkarpovich/quiqstee-telegram.git
+	url = git@github.com:alexkarpovich/quiqstee-telegram.git
 [submodule "ui"]
 	path = ui
-	url = https://github.com/alexkarpovich/quiqstee-ui.git
+	url = git@github.com:alexkarpovich/quiqstee-ui.git
